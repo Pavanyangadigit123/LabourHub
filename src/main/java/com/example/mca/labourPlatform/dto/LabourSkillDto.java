@@ -7,7 +7,14 @@ public class LabourSkillDto {
 	
 	private Integer labourId;
 	private Integer skillId;
+	private String skillName;
 	
+	public String getSkillName() {
+		return skillName;
+	}
+	public void setSkillName(String skillName) {
+		this.skillName = skillName;
+	}
 	public Integer getYearsOfExperience() {
 		return yearsOfExperience;
 	}

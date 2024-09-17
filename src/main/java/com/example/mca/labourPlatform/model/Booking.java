@@ -25,13 +25,54 @@ public class Booking {
 	private LocalDateTime bookingDate;
 
 	@Column(name = "start_time",nullable=false)
-	private LocalDateTime startTime;
+	private LocalDateTime startTime= LocalDateTime.now();
 
 	@Column(name = "end_time",nullable=false)
 	private LocalDateTime endTime;
 
 	@Column(name = "booking_status",nullable=false)
 	private String bookingStatus;
+	
+	@Column(name="amount")
+	private Double amount;
+	
+	@Column(name="order_status")
+	private String orderStatus;
+	
+	@Column(name="razor_pay_order_id")
+	private String razorPayOrderID;
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public String getRazorPayOrderID() {
+		return razorPayOrderID;
+	}
+
+	public void setRazorPayOrderID(String razorPayOrderID) {
+		this.razorPayOrderID = razorPayOrderID;
+	}
+
+	public PaymentTransaction getPaymentTransaction() {
+		return paymentTransaction;
+	}
+
+	public void setPaymentTransaction(PaymentTransaction paymentTransaction) {
+		this.paymentTransaction = paymentTransaction;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
@@ -99,10 +140,11 @@ public class Booking {
 	public void setLabour(Labour labour) {
 		this.labour = labour;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(bookingDate, bookingStatus, endTime, id, startTime);
+		return Objects.hash(amount, bookingDate, bookingStatus, endTime, id, labour, orderStatus, paymentTransaction,
+				razorPayOrderID, startTime, user);
 	}
 
 	@Override
@@ -114,15 +156,22 @@ public class Booking {
 		if (getClass() != obj.getClass())
 			return false;
 		Booking other = (Booking) obj;
-		return Objects.equals(bookingDate, other.bookingDate) && Objects.equals(bookingStatus, other.bookingStatus)
-				&& Objects.equals(endTime, other.endTime) && Objects.equals(id, other.id)
-				&& Objects.equals(startTime, other.startTime);
+		return Objects.equals(amount, other.amount) && Objects.equals(bookingDate, other.bookingDate)
+				&& Objects.equals(bookingStatus, other.bookingStatus) && Objects.equals(endTime, other.endTime)
+				&& Objects.equals(id, other.id) && Objects.equals(labour, other.labour)
+				&& Objects.equals(orderStatus, other.orderStatus)
+				&& Objects.equals(paymentTransaction, other.paymentTransaction)
+				&& Objects.equals(razorPayOrderID, other.razorPayOrderID) && Objects.equals(startTime, other.startTime)
+				&& Objects.equals(user, other.user);
 	}
 
 	@Override
 	public String toString() {
-		return "Bookings [id=" + id + ", bookingDate=" + bookingDate + ", startTime=" + startTime
-				+ ", endTime=" + endTime + ", bookingStatus=" + bookingStatus + "]";
+		return "Booking [id=" + id + ", bookingDate=" + bookingDate + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", bookingStatus=" + bookingStatus + ", amount=" + amount + ", orderStatus=" + orderStatus
+				+ ", razorPayOrderID=" + razorPayOrderID + ", user=" + user + ", labour=" + labour
+				+ ", paymentTransaction=" + paymentTransaction + "]";
 	}
-
+	
+	
 }

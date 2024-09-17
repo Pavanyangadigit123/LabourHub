@@ -2,6 +2,7 @@ package com.example.mca.labourPlatform.util;
 
 import org.springframework.beans.BeanUtils;
 
+import com.example.mca.labourPlatform.dto.LabourDto;
 import com.example.mca.labourPlatform.dto.UserDto;
 import com.example.mca.labourPlatform.model.User;
 
@@ -10,6 +11,7 @@ public class UserUtil {
 	{
 		UserDto dto=new UserDto();
 		BeanUtils.copyProperties(user, dto);
+		
 		return dto;
 	}
 	
@@ -19,6 +21,13 @@ public class UserUtil {
 		BeanUtils.copyProperties(dto,user);
 		
 		return user;
+	}
+	
+	public static UserDto convertLabourDtoToUserDto(LabourDto labourDto)
+	{
+		UserDto dto=new UserDto();
+		BeanUtils.copyProperties(labourDto, dto);
+		return dto;
 	}
 
 }

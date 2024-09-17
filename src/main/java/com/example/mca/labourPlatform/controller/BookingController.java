@@ -1,14 +1,17 @@
 package com.example.mca.labourPlatform.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mca.labourPlatform.dto.BookingDto;
@@ -40,6 +43,8 @@ public class BookingController {
 
 		return new LabourHubResponse(message, status);
 	}
+	
+	
 
 	@PostMapping("/user-id/{userId}/labour-id/{labourId}")
 	public LabourHubResponse createNewBooking(@PathVariable(name = "userId") Integer userId,
@@ -48,14 +53,52 @@ public class BookingController {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		String message = "";
 		try {
-			message = bookingService.createNewBooking(booking,userId,labourId);
+			Booking bookings = bookingService.createNewBooking(booking,userId,labourId);
 			status = HttpStatus.OK;
+			return new LabourHubResponse(bookings, status);
 		} catch (LabourHubException e) {
 			message = "Error while creating new booking; " ;
 		} catch (Exception e) {
 			message = /* "Internal Server Error." + */ e.getMessage() ;
 		}
 
+		return new LabourHubResponse(message, status);
+
+	}
+	
+	
+	@PostMapping("/handle-payment-callback/{razorPayOrderID}")
+	public LabourHubResponse updateOrder(@PathVariable String razorPayOrderID) {
+
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		String message = "";
+		try {
+			message = bookingService.updateOrder(razorPayOrderID);
+			status = HttpStatus.OK;
+			return new LabourHubResponse(message, status);
+		} catch (LabourHubException e) {
+			message = "Payment failed; " ;
+		} catch (Exception e) {
+			message =  e.getMessage() ;
+		}
+
+		return new LabourHubResponse(message, status);
+
+	}
+	
+	@DeleteMapping("cancel-booking/booking-id/{id}")
+	public LabourHubResponse cancelBooking(@PathVariable(name = "id") Integer id) {
+
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		String message = "";
+		try {
+			message = bookingService.cancelBooking(id);
+			status = HttpStatus.OK;
+		} catch (LabourHubException exception) {
+			message = "Failed to cancel booking !!" + exception.getMessage();
+		} catch (Exception exception) {
+			message = "Internal Server Error !!" + exception.getMessage();
+		}
 		return new LabourHubResponse(message, status);
 
 	}

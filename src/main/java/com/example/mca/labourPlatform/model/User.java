@@ -1,67 +1,101 @@
 package com.example.mca.labourPlatform.model;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.JoinColumn;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User {
-	
+
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name = "id")
 	private Integer id;
-	
-	@Column(name="email",nullable=false,unique=true)
+
+	@Column(name = "email", nullable = false, unique = true)
 	private String email;
-	
-	@Column(name="phone_number",nullable=false)
+
+	@Column(name = "phone_number", nullable = false)
 	private String phoneNumber;
-	
-	@Column(name="country",nullable=false)
+
+	@Column(name = "country")
 	private String country;
-	
-	@Column(name="state",nullable=false)
+
+	@Column(name = "state")
 	private String state;
-	
-	@Column(name="area",nullable=false)
+
+	@Column(name = "area")
 	private String area;
-	
-	@Column(name="city",nullable=false)
+
+	@Column(name = "city")
 	private String city;
-	
-	@Column(name="zip_code",nullable=false)
+
+	@Column(name = "zip_code")
 	private String zipCode;
-	
-	@Column(name="profile_pic")
+
+	@Column(name = "profile_pic")
 	private String profilePic;
-	
-	@Column(name="first_name",nullable=false)
+
+	@Column(name = "first_name")
 	private String firstName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "last_name")
 	private String lastName;
-	
+
+	@Column(name = "password", length = 64, nullable = false)
+	private String password;
+
+	@Column(name = "is_google_user")
+	private Boolean isGoogleUser;
+
+	@Column(name = "enabled")
+	private boolean enabled;
+
+	@Column(name = "created_at")
+	private LocalDateTime createdAt;
+
+	@Column(name = "last_modified_at")
+	private LocalDateTime lastModifiedAt;
+
+	@Column(name = "is_email_verified")
+	private Boolean isEmailVerified;
+
+	@Column(name = "is_phone_number_verified")
+	private Boolean isPhoneNumberVerified;
+
 	@OneToOne(mappedBy = "user")
 	private Labour labour;
-	
+
 	@OneToMany(mappedBy = "user")
-    private List<Booking> booking;
-	
-	@OneToMany(mappedBy="user")
+	private List<Booking> booking;
+
+	@OneToMany(mappedBy = "user")
 	private List<Notification> notifications;
-	
-	@OneToMany(mappedBy="user")
+
+	@OneToMany(mappedBy = "user")
 	private List<Feedback> feedback;
-	
+
+	@ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinTable(name = "users_roles", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "role_id") })
+	private Set<Role> roles = new HashSet<>();
+
 	public Integer getId() {
 		return id;
 	}
@@ -118,7 +152,6 @@ public class User {
 		this.city = city;
 	}
 
-	
 	public String getZipCode() {
 		return zipCode;
 	}
@@ -151,6 +184,70 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public Boolean getIsGoogleUser() {
+		return isGoogleUser;
+	}
+
+	public void setIsGoogleUser(Boolean isGoogleUser) {
+		this.isGoogleUser = isGoogleUser;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getLastModifiedAt() {
+		return lastModifiedAt;
+	}
+
+	public void setLastModifiedAt(LocalDateTime lastModifiedAt) {
+		this.lastModifiedAt = lastModifiedAt;
+	}
+
+	public Boolean getIsEmailVerified() {
+		return isEmailVerified;
+	}
+
+	public void setIsEmailVerified(Boolean isEmailVerified) {
+		this.isEmailVerified = isEmailVerified;
+	}
+
+	public Boolean getIsPhoneNumberVerified() {
+		return isPhoneNumberVerified;
+	}
+
+	public void setIsPhoneNumberVerified(Boolean isPhoneNumberVerified) {
+		this.isPhoneNumberVerified = isPhoneNumberVerified;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(area, city, country, email, firstName, id, lastName, phoneNumber, profilePic, state,
@@ -180,11 +277,5 @@ public class User {
 				+ ", state=" + state + ", area=" + area + ", city=" + city + ", zipcode=" + zipCode + ", profilePic="
 				+ profilePic + ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
-	
-	
-	
-	
-	 
-	 
-	
+
 }

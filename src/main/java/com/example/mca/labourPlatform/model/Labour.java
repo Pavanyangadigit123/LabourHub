@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name="labour")
@@ -24,9 +25,11 @@ public class Labour {
 	@Column(name="id")
 	private Integer id;
 	
+	
 	@Column(name="daily_wages",nullable=false)
 	private Double dailyWages;
 	
+
 	@Column(name="availability",nullable=false)
 	private Boolean availability;
 	
@@ -74,6 +77,14 @@ public class Labour {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Set<LabourSkill> getLabourSkills() {
+		return labourSkills;
+	}
+
+	public void setLabourSkills(Set<LabourSkill> labourSkills) {
+		this.labourSkills = labourSkills;
 	}
 
 	@Override

@@ -2,6 +2,8 @@ package com.example.mca.labourPlatform.dto;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+
 public class BookingDto {
 	
 	private Integer id;
@@ -9,8 +11,29 @@ public class BookingDto {
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private String bookingStatus;
+	private Double amount;
+	private String orderStatus;
+	private String razorPayOrderID;
 	
 	private Integer userId;
+	public Double getAmount() {
+		return amount;
+	}
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+	public String getRazorPayOrderID() {
+		return razorPayOrderID;
+	}
+	public void setRazorPayOrderID(String razorPayOrderID) {
+		this.razorPayOrderID = razorPayOrderID;
+	}
 	private Integer laborerId;
 	
 	

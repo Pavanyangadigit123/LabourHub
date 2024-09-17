@@ -16,6 +16,7 @@ import com.example.mca.labourPlatform.model.User;
 import com.example.mca.labourPlatform.service.NotificationService;
 import com.example.mca.labourPlatform.util.NotificationUtil;
 
+
 @Service
 public class NotificationServiceImplementation implements NotificationService  {
 	

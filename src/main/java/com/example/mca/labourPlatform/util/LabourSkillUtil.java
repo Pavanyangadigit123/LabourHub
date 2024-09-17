@@ -12,6 +12,7 @@ public class LabourSkillUtil {
 		BeanUtils.copyProperties(labourSkill, dto);
 		 dto.setLabourId(labourSkill.getLabour().getId());
 		 dto.setSkillId(labourSkill.getSkill().getId());
+		 dto.setSkillName(labourSkill.getSkill().getSkillName());
 		return dto;
 	}
 

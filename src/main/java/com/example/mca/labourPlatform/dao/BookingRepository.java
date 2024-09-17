@@ -10,4 +10,6 @@ import com.example.mca.labourPlatform.model.Booking;
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 //	List<Bookings> findByUserId(Integer userId);
+	
+	public Booking findByRazorPayOrderID(String orderId);
 }
